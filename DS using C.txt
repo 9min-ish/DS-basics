@@ -1,0 +1,286 @@
+Presentation on Data Structures with C, along with some code snippets:
+
+1. Introduction to Data Structures:
+   - Explanation of what data structures are and why they are important in programming.
+
+2. Arrays:
+   - Declaration and initialization of arrays.
+   - Accessing array elements.
+   - Example code demonstrating array manipulation.
+
+```c
+#include <stdio.h>
+
+int main() {
+    int arr[5] = {1, 2, 3, 4, 5};
+    
+    // Accessing array elements
+    printf("Array elements: ");
+    for (int i = 0; i < 5; i++) {
+        printf("%d ", arr[i]);
+    }
+    
+    return 0;
+}
+```
+
+3. Linked Lists:
+   - Explanation of linked lists and their advantages.
+   - Implementation of singly linked lists.
+   - Basic operations like insertion, deletion, and traversal.
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Function to print linked list
+void printList(struct Node* node) {
+    while (node != NULL) {
+        printf("%d ", node->data);
+        node = node->next;
+    }
+}
+
+int main() {
+    // Creating nodes
+    struct Node* head = NULL;
+    struct Node* second = NULL;
+    struct Node* third = NULL;
+    
+    head = (struct Node*)malloc(sizeof(struct Node));
+    second = (struct Node*)malloc(sizeof(struct Node));
+    third = (struct Node*)malloc(sizeof(struct Node));
+    
+    head->data = 1;
+    head->next = second;
+    
+    second->data = 2;
+    second->next = third;
+    
+    third->data = 3;
+    third->next = NULL;
+    
+    // Printing linked list
+    printList(head);
+    
+    return 0;
+}
+```
+
+4. Stacks and Queues:
+   - Explanation of stacks and queues.
+   - Implementation using arrays and linked lists.
+   - Example code demonstrating stack and queue operations.
+
+```c
+// Stack implementation using arrays
+#include <stdio.h>
+#define MAX_SIZE 100
+
+int stack[MAX_SIZE];
+int top = -1;
+
+void push(int item) {
+    if (top == MAX_SIZE - 1) {
+        printf("Stack Overflow\n");
+        return;
+    }
+    stack[++top] = item;
+}
+
+int pop() {
+    if (top == -1) {
+        printf("Stack Underflow\n");
+        return -1;
+    }
+    return stack[top--];
+}
+
+int main() {
+    push(1);
+    push(2);
+    push(3);
+    
+    printf("%d\n", pop());
+    printf("%d\n", pop());
+    printf("%d\n", pop());
+    printf("%d\n", pop()); // Stack underflow
+
+    return 0;
+}
+```
+
+```c
+// Queue implementation using linked list
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Queue {
+    struct Node *front, *rear;
+};
+
+struct Queue* createQueue() {
+    struct Queue* q = (struct Queue*)malloc(sizeof(struct Queue));
+    q->front = q->rear = NULL;
+    return q;
+}
+
+void enqueue(struct Queue* q, int item) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = item;
+    newNode->next = NULL;
+    if (q->rear == NULL) {
+        q->front = q->rear = newNode;
+        return;
+    }
+    q->rear->next = newNode;
+    q->rear = newNode;
+}
+
+int dequeue(struct Queue* q) {
+    if (q->front == NULL) {
+        printf("Queue is empty\n");
+        return -1;
+    }
+    int item = q->front->data;
+    struct Node* temp = q->front;
+    q->front = q->front->next;
+    if (q->front == NULL) {
+        q->rear = NULL;
+    }
+    free(temp);
+    return item;
+}
+
+int main() {
+    struct Queue* q = createQueue();
+    enqueue(q, 1);
+    enqueue(q, 2);
+    enqueue(q, 3);
+    
+    printf("%d\n", dequeue(q));
+    printf("%d\n", dequeue(q));
+    printf("%d\n", dequeue(q));
+    printf("%d\n", dequeue(q)); // Queue is empty
+    
+    return 0;
+}
+```
+
+5. Trees:
+   - Introduction to trees and binary trees.
+   - Implementation of binary search trees.
+   - Traversal techniques like inorder, preorder, and postorder traversal.
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node *left, *right;
+};
+
+struct Node* newNode(int key) {
+    struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
+    temp->data = key;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+
+void inorderTraversal(struct Node* root) {
+    if (root != NULL) {
+        inorderTraversal(root->left);
+        printf("%d ", root->data);
+        inorderTraversal(root->right);
+    }
+}
+
+int main() {
+    struct Node* root = newNode(1);
+    root->left = newNode(2);
+    root->right = newNode(3);
+    root->left->left = newNode(4);
+    root->left->right = newNode(5);
+    
+    printf("Inorder traversal: ");
+    inorderTraversal(root);
+    
+    return 0;
+}
+```
+
+6. Graphs:
+   - Explanation of graphs and their representations.
+   - Depth-first search (DFS) and breadth-first search (BFS) algorithms.
+   - Example code demonstrating graph traversal.
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+
+struct Queue {
+    int items[MAX_SIZE];
+    int front;
+    int rear;
+};
+
+struct Queue* createQueue() {
+    struct Queue* q = (struct Queue*)malloc(sizeof(struct Queue));
+    q->front = -1;
+    q->rear = -1;
+    return q;
+}
+
+void enqueue(struct Queue* q, int value) {
+    if (q->rear == MAX_SIZE - 1) {
+        printf("Queue is full\n");
+    } else {
+        if (q->front == -1) {
+            q->front = 0;
+        }
+        q->rear++;
+        q->items[q->rear] = value;
+    }
+}
+
+int dequeue(struct Queue* q) {
+    int item;
+    if (q->front == -1) {
+        printf("Queue is empty\n");
+        item = -1;
+    } else {
+        item = q->items[q->front];
+        q->front++;
+        if (q->front > q->rear) {
+            q->front = q->rear = -1;
+        }
+    }
+    return item;
+}
+
+struct Node {
+    int vertex;
+    struct Node* next;
+};
+
+struct Node* createNode(int v) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->vertex = v;
+    newNode->next = NULL;
+    return newNode;
+}
+
