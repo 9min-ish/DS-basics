@@ -1,0 +1,39 @@
+Prompts:
+#1) please provide steps in binary sort & binary search and further write steps for each research methods
+#2) Please create a flowchart representing the steps for carrying out  binary sort & binary search, incorporating the above steps. Ensure that related steps are placed side by side.
+#3) Please write Mermaid code for this
+
+//copy mermaid code and paste in draw.io
+create file 
+check add symbol and go to advance click mermaid 
+paste the mermaid code from chatgpt
+ex- graph TB
+    A(Start) --> B{Binary Sort}
+    A --> C{Binary Search}
+
+    B --> B1[Initialize: Start with element at index 1]
+    B1 --> B2[Binary Search: Find position]
+    B2 --> B3{While low <= high}
+    B3 --> B4[Calculate mid as low plus high divided by 2]
+    B3 --> B5[If element at mid is less than current element]
+    B5 --> B6[Set low to mid plus 1]
+    B3 --> B7[Else, set high to mid minus 1]
+    B3 --> B8[Position for current element is low]
+    B8 --> B9[Shift elements right to make space]
+    B9 --> B10[Insert current element at position found]
+    B10 --> B11[Repeat for next element until end of array]
+    B11 --> B12[Sorted array]
+    B12 --> D(End)
+
+    C --> C1[Initialize: Set low to 0, high to last index]
+    C1 --> C2{While low <= high}
+    C2 --> C3[Calculate mid as low plus high divided by 2]
+    C2 --> C4[Compare middle element with target]
+    C4 --> C5[If equal, return mid]
+    C4 --> C6[If less, set low to mid plus 1]
+    C4 --> C7[If greater, set high to mid minus 1]
+    C2 --> C8[If not found, return -1]
+    C8 --> D
+
+    style D fill:#f9f,stroke:#333,stroke-width:4px
+click ok.
